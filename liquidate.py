@@ -22,8 +22,6 @@ class LiquidationPrinter:
         BOLD = '\033[1m'
         UNDERLINE = '\033[4m'
 
-    HEADER = ['Symbol', 'B/S', 'USD Value', 'Quantity', 'Price', 'Time']
-
     @staticmethod
     def print_header():
         LiquidationPrinter.print_to_console('Symbol', 'B/S', 'USD Value', 'Quantity', 'Price', 'Time')
@@ -50,7 +48,7 @@ class LiquidationPrinter:
             pass
         line += qty.ljust(10)
         line += '@'.ljust(4)
-        line += str(price).ljust(10)
+        line += str(price).ljust(11)
         try:
             time = time.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
         except AttributeError:
@@ -69,13 +67,12 @@ class BitMEXLiquidation:
         self._connect(url)
         self.num_pongs = 0
         logger.info('Connected to WS.')
-        sleep(5)  # just wait for bitmex to answer Welcome to the BitMEX Realtime API!
+        sleep(5)  # Just wait for BitMEX to answer. Welcome to the BitMEX Realtime API!
         LiquidationPrinter.print_header()
 
     def exit(self):
         """Call this to exit - will close websocket."""
         logger.info('exit()')
-        self.exited = True
         self.ws.close()
 
     def _connect(self, url):
@@ -89,20 +86,16 @@ class BitMEXLiquidation:
                                          on_pong=self._on_pong)
 
         # https://www.bitmex.com/app/wsAPI#Heartbeats
-        self.wst = threading.Thread(target=lambda: self.ws.run_forever(ping_interval=5))
-        self.wst.daemon = False
+        self.wst = threading.Thread(target=lambda: self.ws.run_forever(ping_interval=5),
+                                    daemon=False)
         self.wst.start()
 
-    def _on_pong(self, ws, msg):
-        # if self.num_pongs % 100 == 0:
-        # logger.info('Waiting for liquidation... Might take a while... Check https://app.rek.to/')
+    def _on_pong(self, ws, message):
         self.num_pongs += 1
 
     def _on_message(self, ws, message):
         """Handler for parsing WS messages."""
         message = json.loads(message)
-
-        # print(message)
         if 'action' in message and message['action'] == 'insert':
             assert len(message['data']) == 1
             liquidation = message['data'][0]
@@ -110,8 +103,6 @@ class BitMEXLiquidation:
             price = float(liquidation['price'])
             side = liquidation['side']
             symbol = liquidation['symbol']
-            # Symbol	B/S	USD Value	Quantity		Price	Time
-            # ETHUSD	Buy	4,598	2,723	@	189	15:01
             usd_value = price * qty if symbol != 'XBTUSD' else qty
             LiquidationPrinter.print_to_console(symbol, side, usd_value, qty, price, datetime.now())
         elif 'info' in message:
@@ -133,9 +124,6 @@ class BitMEXLiquidation:
 
 
 if __name__ == '__main__':
-    # LiquidationPrinter.print_header()
-    # LiquidationPrinter.print_to_console('XBTUSD', 'Buy', 10000, 10000, 8848, datetime.now())
-    # LiquidationPrinter.print_to_console('XBTUSD', 'Sell', 10000, 10000, 8848, datetime.now())
     logging.basicConfig(format='%(asctime)12s - %(message)s', level=logging.INFO)
     _symbol = sys.argv[1] if len(sys.argv) > 1 else None
     ws = BitMEXLiquidation(symbol=_symbol)
