@@ -1,5 +1,5 @@
 # BitMEX Liquidation
-Minimal code to show how to receive the liquidations in realtime on Bitmex.
+Minimal code to show how to receive the liquidations in realtime on Bitmex. It does work and does not hang randomly.
 
 <p align="center">
   <img src="banner.png" width="400">
