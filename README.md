@@ -19,3 +19,22 @@ python liquidate.py XBTUSD        # Only XBTUSD.
 ```
 
 Useful links: https://app.rek.to/
+
+## Messages
+
+This message corresponds to the first line of the banner:
+```
+{ 
+   "table":"liquidation",
+   "action":"insert",
+   "data":[ 
+      { 
+         "orderID":"8b4a95db-815a-f93a-c9a2-ffbbabeddbac",
+         "symbol":"TRXZ19",
+         "side":"Buy",
+         "price":2.17e-06,
+         "leavesQty":5000
+      }
+   ]
+}
+```
