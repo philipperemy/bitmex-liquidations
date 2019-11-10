@@ -1,6 +1,10 @@
 # BitMEX Liquidation
 Minimal code to show how to receive the liquidations in realtime on Bitmex.
 
+<p align="center">
+  <img src="banner.png" width="400">
+</p>
+
 ## Installation
 ```
 virtualenv -p python3 venv
