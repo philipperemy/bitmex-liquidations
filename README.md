@@ -23,7 +23,7 @@ Useful links: https://app.rek.to/
 ## Messages
 
 This message corresponds to the first line of the banner:
-```
+```json
 { 
    "table":"liquidation",
    "action":"insert",
