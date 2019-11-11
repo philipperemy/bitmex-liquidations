@@ -2,6 +2,7 @@ import json
 import logging
 import threading
 from datetime import datetime
+from queue import Queue
 from time import sleep
 
 import websocket
@@ -65,6 +66,7 @@ class BitMEXLiquidation:
         logger.info("Connecting to %s." % url)
         self._connect(url)
         self.num_pongs = 0
+        self.queue = Queue()
         logger.info('Connected to WS.')
         sleep(5)  # Just wait for BitMEX to answer. Welcome to the BitMEX Realtime API!
         LiquidationPrinter.print_header()
@@ -95,7 +97,10 @@ class BitMEXLiquidation:
     def _on_message(self, ws, message):
         """Handler for parsing WS messages."""
         message = json.loads(message)
-        if 'action' in message and message['action'] == 'insert':
+        action_msg = 'action' in message
+        if action_msg:
+            self.queue.put(message)
+        if action_msg and message['action'] == 'insert':
             assert len(message['data']) == 1
             liquidation = message['data'][0]
             qty = float(liquidation['leavesQty'])
@@ -120,3 +125,6 @@ class BitMEXLiquidation:
     def _on_close(self, ws):
         """Called on websocket close."""
         logger.info('Websocket Closed')
+
+    def get(self, block=True, timeout=None):
+        return self.queue.get(block, timeout)
