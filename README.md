@@ -14,8 +14,8 @@ pip install -r requirements.txt
 
 ## Run
 ```
-python liquidate.py               # All instruments.
-python liquidate.py XBTUSD        # Only XBTUSD.
+python example.py               # All instruments.
+python example.py XBTUSD        # Only XBTUSD.
 ```
 
 Useful links: https://app.rek.to/
