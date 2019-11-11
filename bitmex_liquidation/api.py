@@ -1,6 +1,5 @@
 import json
 import logging
-import sys
 import threading
 from datetime import datetime
 from time import sleep
@@ -121,9 +120,3 @@ class BitMEXLiquidation:
     def _on_close(self, ws):
         """Called on websocket close."""
         logger.info('Websocket Closed')
-
-
-if __name__ == '__main__':
-    logging.basicConfig(format='%(asctime)12s - %(message)s', level=logging.INFO)
-    _symbol = sys.argv[1] if len(sys.argv) > 1 else None
-    ws = BitMEXLiquidation(symbol=_symbol)
