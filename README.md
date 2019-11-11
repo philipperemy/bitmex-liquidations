@@ -18,7 +18,9 @@ python example.py               # All instruments.
 python example.py XBTUSD        # Only XBTUSD.
 ```
 
-Useful links: https://app.rek.to/
+And be patient! You might have to wait more than one hour to see your first liquidation.
+
+Browse this link for more information: https://app.rek.to/.
 
 ## Output
 
