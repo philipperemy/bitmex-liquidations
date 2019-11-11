@@ -14,11 +14,28 @@ pip install -r requirements.txt
 
 ## Run
 ```
-python liquidate.py               # All instruments.
-python liquidate.py XBTUSD        # Only XBTUSD.
+python example.py               # All instruments.
+python example.py XBTUSD        # Only XBTUSD.
 ```
 
-Useful links: https://app.rek.to/
+And be patient! You might have to wait more than one hour to see your first liquidation.
+
+Browse this link for more information: https://app.rek.to/.
+
+## Output
+
+```
+2019-11-10 16:33:11,486 - Connecting to wss://www.bitmex.com/realtime?subscribe=liquidation.
+2019-11-10 16:33:11,486 - Connected to WS.
+2019-11-10 16:33:12,478 - Websocket Opened.
+2019-11-10 16:33:12,479 - [<] Welcome to the BitMEX Realtime API.
+2019-11-10 16:33:12,479 - [<] Subscribed to liquidation.
+2019-11-10 16:33:16,493 - Symbol    B/S   USD Value   Quantity  @   Price     Time
+2019-11-10 17:02:34,396 - EOSZ19    Buy   0           600       @   0.0004007 2019-11-10 17:02:34.396
+2019-11-10 17:30:08,324 - XBTUSD    Sell  68,000      68,000    @   8829.5    2019-11-10 17:30:08.324
+2019-11-10 17:30:14,103 - XBTUSD    Sell  807         807       @   8827.0    2019-11-10 17:30:14.103
+2019-11-10 18:44:40,254 - XBTUSD    Sell  1,013       1,013     @   8818.5    2019-11-10 18:44:40.254
+```
 
 ## Messages
 
