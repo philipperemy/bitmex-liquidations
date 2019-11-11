@@ -103,7 +103,7 @@ class BitMEXLiquidation:
             price = float(liquidation['price'])
             side = liquidation['side']
             symbol = liquidation['symbol']
-            usd_value = price * qty if symbol != 'XBTUSD' else qty
+            usd_value = price * qty if not symbol.startswith('XBT') else qty
             LiquidationPrinter.print_to_console(symbol, side, usd_value, qty, price, datetime.now())
         elif 'info' in message:
             logger.info('[<] ' + message['info'])
