@@ -5,6 +5,8 @@ Minimal code to show how to receive the liquidations in realtime on Bitmex. It d
   <img src="banner.png" width="400">
 </p>
 
+NOTE: From my experience, even though the feed is realtime according to Bitmex, by the time you receive the liquidation messages, they already happened a few seconds earlier. So it would be hard to profit from it directly. But it could use as a data feature.
+
 ## Installation
 ```
 virtualenv -p python3 venv
